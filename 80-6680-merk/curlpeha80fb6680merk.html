@@ -10,8 +10,8 @@
 
 <style>
 body { background-color: #f4ca41; font-family: Arial, Helvetica, Sans-Serif; Color: #000000; }
-.ph {  padding: 15px 25px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;  background-color: orange;  border: none;  border-radius: 15px;  box-shadow: 0 9px #998;}.button:hover {background-color: red}
-.ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(10px);
+.ph { background-color: orange;width:320px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;    border: none;  border-radius: 15px;  box-shadow: 0 9px #998;}.button:hover {background-color: yellow}
+.ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(5px);
 </style>
     </head>
 	
@@ -201,11 +201,14 @@ fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
 				  console.log("  kleurpatroon0 :" + nulkleur );
 		   console.log("  kleurpatroon1 :" + eenkleur );
 		   console.log(knop);// knopobjet
+		   
+		   //background-color in css noemt backgroundColor in js
+		   //color
 		  
 			 var f = document.getElementById(knop.id);
-    if (eindfeedbackAlgelijkvanwie === "0") {f.style.color =  fullcmdArray[12] ;}
+    if (eindfeedbackAlgelijkvanwie === "0") {f.style.backgroundColor =  fullcmdArray[12] ;}
     else 
-  if (eindfeedbackAlgelijkvanwie === "1") {f.style.color = fullcmdArray[13] ;}
+  if (eindfeedbackAlgelijkvanwie === "1") {f.style.backgroundColor = fullcmdArray[13] ;}
   
  // alert (knop.id);
 		} // end kleurcodeinvullenToegelaten	
@@ -255,10 +258,15 @@ fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
 //curlpeha80fb6680merk.php?fbstm=0&fbmodule=64&fbkanaal=0&submit=fb
 //fb 0 64 0    == 00.00   en 04.01 = 68.01
 
-<br><br><button class="ph" id="knop1" name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur black red"  onclick="hitEndpointpeha(this )"> eettafel merker01  </button>
-<br><br><button class="ph" id="knop2" name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur black green"  onclick="hitEndpointpeha(this)"> relais </button>
- <br><br><button class="ph" id="knop3" name="actionurl 192.168.1.2 999 0 3 9 2 merker 0 1 x kleur pink red"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden </button>
-                                                                                          
+<br><br><button class="ph" id="aa"    name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur green red"  onclick="hitEndpointpeha(this )"> eettafel merker01  </button>
+<br><br><button class="ph" id="bb"    name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur green red"  onclick="hitEndpointpeha(this)"> relais </button>
+ <br><br><button class="ph" id="cc" name="actionurl 192.168.1.2 99 0 3 9 2 merker 0 1 x kleur pink red"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden </button>
+   
+<br><br><button class="ph" id="sensor2" name="actionurl 192.168.1.2 99 0 0 0 2 merker 0 1 x kleur pink orange"  onclick="hitEndpointpeha(this)">rolluik</button>
+<br><br><button class="ph" id="knop3" name="actionurl 192.168.1.2 80 0 0 3 2 fb 0 64 7 kleur green red"  onclick="hitEndpointpeha(this)">grootraam</button>
+<br><br><button class="ph" id="knop4" name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur green red"  onclick="hitEndpointpeha(this)">relay</button>
+
+   
 <hr> 
 
 
