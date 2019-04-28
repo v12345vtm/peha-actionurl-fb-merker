@@ -7,6 +7,12 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>Action-C-url met fb+merker</title>
 
+
+<style>
+body { background-color: #f4ca41; font-family: Arial, Helvetica, Sans-Serif; Color: #000000; }
+.ph {  padding: 15px 25px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;  background-color: orange;  border: none;  border-radius: 15px;  box-shadow: 0 9px #998;}.button:hover {background-color: red}
+.ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(10px);
+</style>
     </head>
 	
 	
@@ -15,46 +21,33 @@
       <script>
  
  
- var arrayvanPHknoppen  = new Array() ;
+ var arrayvanPHknoppen  = new Array() ;// elementmet id's  : knop1 knop2 knop3
  var skipActionurl = 1; //geen actionurl als we op f5 browser refreshen
+ 
+ //var fullcmdArray = new Array() ;
+ 
  function start() {
  //alert ("hi" );
-skipActionurl = 1;
  
+ //in deze functie gaan we op alle knoppen eens drukken  maar zonder dat de actionurl gebeurd
+skipActionurl = 1; 
  console.clear(); //we willen enkel de recentste knop data zien in de console
  var pehaknoppen = document.getElementsByClassName("ph");
 for (var i = 0, len = pehaknoppen.length; i < len; ++i)
  {
   arrayvanPHknoppen[i] = pehaknoppen [i].id ;
 }//end for
-
- 
-
 for (var j = 0, len = arrayvanPHknoppen.length; j < len; ++j)
  {
   console.log(" arrayvanPHknoppen " );
  console.log( arrayvanPHknoppen );
- 
- 
- 
- 
- 
- //document.getElementById(arrayvanPHknoppen[j]).name= mani;
- 
- // console.log(" mani" );
-// console.log( mani );
- 
- hitEndpointpeha (document.getElementById(arrayvanPHknoppen[j]) );
+  hitEndpointpeha (document.getElementById(arrayvanPHknoppen[j]) );
 sleep(100);
  
 }//end for
 
- 
- 
  console.log("arrayvanPHknoppen" );
 console.log( arrayvanPHknoppen);
-
-  
 skipActionurl = 0; //vrijgave om action url door te laten
  }
  
@@ -75,9 +68,8 @@ console.clear(); //we willen enkel de recentste knop data zien in de console
 var actionurltemplate ;
 var a = "XX";
 //var cmdArray = new Array() ; //elementen die in de e.name staan
-spatierij =  e.name ; // we hebben altijd 11elementen
-
- fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
+spatierij =  e.name ; // we hebben altijd ...elementen
+ fullcmdArray = spatierij.split(" "); // we hebben altijd xxelementen
  
  
  console.log("fullcmdArray" );
@@ -122,27 +114,13 @@ feedbacktemplate = "curlpeha80fb6680merk.php?fbstm="   + fullcmdArray[8]  +   "&
  }
 
 
-
-
-
-
-
-
  
 }
 
 
 
-
-
-
-
-
-
-
-
-
 function getrequest (knop , url ) {
+var kleurcodeinvullenToegelaten = 0 ;  //geen vrijgave om zomaar de kleurcode in te vullen bij actionurl kan dit niet
   var xhttp = new XMLHttpRequest();
    xhttp.onreadystatechange = function(){
       //we're done making the request naar de php pagina die op zijn beurt een curl get request doet + 1 xml 6680 request voor fb
@@ -181,6 +159,9 @@ function getrequest (knop , url ) {
 //header("fb-kanaalstatus:"   . $kanaalstatus );
 //header("fb-merkerstatus:"   . $merkerstatus );
 //header("fb-gebruikteForm:"   . $formfactor );
+
+
+ //console.clear(); // debug
             console.log("hit endpoint successfully");
 			console.log("responslengte : "  + x );
 			 console.log("  fverzondenactionURL : " +fverzondenactionURL );
@@ -197,20 +178,37 @@ function getrequest (knop , url ) {
 			if (fbgebruiktformulier == "merker"){
 			
 			eindfeedbackAlgelijkvanwie = fbmerkerstatus ;
+			kleurcodeinvullenToegelaten = 1 ; 
 			}
 			
 				if (fbgebruiktformulier == "fb"){
 			
 			eindfeedbackAlgelijkvanwie = fbkanaalstatus ;
+			kleurcodeinvullenToegelaten = 1 ; 
 			}
 		
-		
+		if (kleurcodeinvullenToegelaten == 1){
 		 console.log("  eindfeedbackAlgelijkvanwie : " + eindfeedbackAlgelijkvanwie);
-			 var f = document.getElementById(knop.id);
-    if (eindfeedbackAlgelijkvanwie === "1") {f.style.color = 'red';}
-    else 
-  if (eindfeedbackAlgelijkvanwie === "0") {f.style.color = 'black';}
+		 
+//updaten van kleurcode voor css
+spatierij =  knop.name ; // we hebben altijd ...elementen
+fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
+
+
+		    nulkleur = "\'" + fullcmdArray[12]  + "\'" ;
+		    eenkleur = "\'" + fullcmdArray[13]  + "\'" ;
 			
+				  console.log("  kleurpatroon0 :" + nulkleur );
+		   console.log("  kleurpatroon1 :" + eenkleur );
+		   console.log(knop);// knopobjet
+		  
+			 var f = document.getElementById(knop.id);
+    if (eindfeedbackAlgelijkvanwie === "0") {f.style.color =  fullcmdArray[12] ;}
+    else 
+  if (eindfeedbackAlgelijkvanwie === "1") {f.style.color = fullcmdArray[13] ;}
+  
+ // alert (knop.id);
+		} // end kleurcodeinvullenToegelaten	
 			
 			
 		 	
@@ -224,21 +222,6 @@ function getrequest (knop , url ) {
   // xhttp.setRequestHeader("Origin", 'maximum.blog');
    
    xhttp.send();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -272,9 +255,9 @@ function getrequest (knop , url ) {
 //curlpeha80fb6680merk.php?fbstm=0&fbmodule=64&fbkanaal=0&submit=fb
 //fb 0 64 0    == 00.00   en 04.01 = 68.01
 
-<br><br><button class="ph" id="knop1" name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1"  onclick="hitEndpointpeha(this )"> eettafel merker01  </button>
-<br><br><button class="ph" id="knop4" name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1"  onclick="hitEndpointpeha(this)"> relais </button>
- <br><br><button class="ph" id="knop3" name="actionurl 192.168.1.2 999 0 3 9 2 merker 0 1"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden </button>
+<br><br><button class="ph" id="knop1" name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur black red"  onclick="hitEndpointpeha(this )"> eettafel merker01  </button>
+<br><br><button class="ph" id="knop2" name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur black green"  onclick="hitEndpointpeha(this)"> relais </button>
+ <br><br><button class="ph" id="knop3" name="actionurl 192.168.1.2 999 0 3 9 2 merker 0 1 x kleur pink red"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden </button>
                                                                                           
 <hr> 
 
