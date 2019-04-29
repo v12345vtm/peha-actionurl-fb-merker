@@ -10,7 +10,8 @@
 
 <style>
 body { background-color: #f4ca41; font-family: Arial, Helvetica, Sans-Serif; Color: #000000; }
-.ph { background-color: orange;width:320px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;    border: none;  border-radius: 15px;  box-shadow: 0 9px #998;}.button:hover {background-color: yellow}
+.ph { background-color:orange ;width:320px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;   border:4px solid black;  border-radius: 15px;  box-shadow: 0 9px #998;}
+
 .ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(5px);
 </style>
     </head>
@@ -86,7 +87,7 @@ actionurltemplate=    "curlpeha80fb6680merk.php?ipadresactionurl="   + fullcmdAr
 
 
 getrequest (e , actionurltemplate   );
-sleep(100);
+sleep(200);
 }
 
 
@@ -248,15 +249,7 @@ fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
  
 <hr>
 
-  
-  //curlpeha80fb6680merk.php?ipadresactionurl=192.168.1.2&poortactionurl=80&stmactionurl=0&moduleactionurl=0&channelactionurl=0&eventactionurl=2&submit=actionurl
-  //actionurl 192.168.1.2 80 0 0 0 2 
 
-//curlpeha80fb6680merk.php?merkerstm=0&merkernr=1&submit=merker
-//merker 0 1  
-
-//curlpeha80fb6680merk.php?fbstm=0&fbmodule=64&fbkanaal=0&submit=fb
-//fb 0 64 0    == 00.00   en 04.01 = 68.01
 
 <br><br><button class="ph" id="aa"    name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur green red"  onclick="hitEndpointpeha(this )"> eettafel merker01  </button>
 <br><br><button class="ph" id="bb"    name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur green red"  onclick="hitEndpointpeha(this)"> relais </button>
