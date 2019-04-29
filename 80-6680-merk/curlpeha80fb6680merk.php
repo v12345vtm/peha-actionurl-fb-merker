@@ -92,7 +92,7 @@ function decodeerxmlMerker ($xmlrespons )
 {
  //opkuisen xml , xml uitfilteren , eerst de kop eraf dmv substring , en dan xml parsen
 $s =substr($xmlrespons,148 +43+12 + 52 , 1);   //gewoon het zoveelste karakter gaan uitpikken uit de xml respons
-echo "hiertussen".  $s. "merkerwaarde";
+//echo "hiertussen".  $s. "merkerwaarde";
 return $s;
 }
 
@@ -313,7 +313,7 @@ $fbtemplate= '<methodCall><methodName>service.stm.sendTelegram</methodName><para
 
 ////////////////////////
 if ($formfactor == "actionurl"  ) {
-    //echo  "gui wil actoin url doen";
+   echo  "sending action-url";
 	
 	sendURLtopeha($actionurltemplate); //req via action url op poort 80 , de http interface van peha
 
@@ -342,7 +342,7 @@ if ($formfactor == "merker"  ) {
 if (inputcontrolestm($fbstm)==true)
 {
   $merkerstatus = fbvanMerkervragen($ip[$merkerstm],$stmadres[$merkerstm],$merkernr);// req to port 6680 :  modulestatus is vb : "00000000"
-echo "<H1>" .$merkerstatus ."</H1>"  ;
+//echo "<H1>" .$merkerstatus ."</H1>"  ;
   
   $actionurltemplate = "n.v.t."  ; 
 $modadres =  "n.v.t." ; 
@@ -412,7 +412,7 @@ testt();
 
 
 
-echo "<H2>" .$merkerstatus ."</H2>"  ;
+//echo "<H2>" .$merkerstatus ."</H2>"  ;
 ////////echo     "<br /><h2><div id=\"feedbackbit\">$kanaalstatus</div></h2><br />";// kanaal	
 ////////echo     "<br />modulestatus = $modulestatus modulestatusstop <br />"; //  0,0,0,0,0,0,0,0,1
 ////////echo     "<br />kanaalstatus =  $kanaalstatus kanaalstatusstop<br />";// kanaal 0 is  0 of 1 of een waarde tussen 0en 255 , voor ajax
@@ -429,11 +429,8 @@ header("fb-gebruikteForm:"   . $formfactor );
 	}
 ?>
    
-<p><a href="curlpeha.php  ">curlpeha.php</a>werk php die actionurl stuurt</p>
-<p><a href="curlpeha.html  ">curlpeha.html</a>GUI met knoppen</p>
-<p><a href="fb6680.php  ">fb.php</a>php die aan poort 6680 fb vraagt</p>
+
   
-  <hr>
 
   
     <hr>
@@ -510,13 +507,76 @@ header("fb-gebruikteForm:"   . $formfactor );
 
 
 
-  <h2>5regels respons headers voor gui :</h2>
-<div id="phpvar"><?php echo     $actionurltemplate?></div>
-<div id="phpvara"><?php echo     $modadres?></div>
-<div id="phpvaraa"><?php echo     $modulestatus?></div>
-<div id="phpvaraa"><?php echo     $kanaalstatus?></div>
-<div id="phpvaraab"><?php echo     $merkerstatus?></div>
-<div id="phpvaraab"><?php echo     $formfactor?></div>
+  <h2>5regels die ook in de respons headers te vinden zijn voor gui (html pagina met knoppen) :</h2>
+  
+  <div style="background-color:yellow">
+ feedback : 
+<div id="phpactionurl"><?php echo     $actionurltemplate ?></div>
+<div id="phpmodadres"><?php echo     $modadres ?></div>
+<div id="phpmodstatus"><?php echo     $modulestatus ?></div>
+<div id="phpbitkanaal"><?php echo     $kanaalstatus ?></div>
+<div id="phpbitmerker"><?php echo     $merkerstatus ?></div>
+<div id="phpwelkformulier"><?php echo     $formfactor ?></div>
+
+
+</div>
+
+<p><a href="curlpeha80fb6680merk.php  ">curlpeha80fb6680merk.php</a>werk php die actionurl stuurt</p>
+<p><a href="curlpeha80fb6680merk.html  ">curlpeha80fb6680merk.html</a>GUI met knoppen</p>
+<p><a href="https://github.com/v12345vtm/peha-actionurl-fb-merker  ">sourcecode github</a>GITHUB SOURCE</p>
+
+
+<br>
+<br>afhankelijk van wat je wil kan je een formulier hier invullen 
+<br>rood form : action url via poort 80 rechtstreeks naar de peha stm
+<br>roze form : een merker uitlezen via xml command naar poort 6680 
+<br>groen form : eender welke module uitlezen via xml command naar poort 6680
+<br>
+<br>files die gebruikt worden  : config.inc en functions.php
+<br>in het gele vak is de feedback die door deze php ontleed is tot de essentie.
+
+
+<br>de html file met de knoppen pagina doet een ajax request naar deze php.
+<br>de request is bestaat in theorie uit 2 delen : eerst de action-url-formulier aanvragen  , en dan de feedback-aanvragen.
+<br>indien we een sensor hebben (vb input inlezen ve deurcontact), doen we een fake action-url naar poort 99 die niet bestaat.
+<br>op die manier krijgen we geen vertraging door http-timeout.
+<br>de feedback van de peha bekomen we door telkens de stand van een relais te vragen.
+<br>deze pagina bezit antwoord headers die de gui-html pagina zal ondersheppen in de javascript.
+<br>de header info , zie je ook in het gele kader. (met de volgende namen : )
+<br>
+
+
+<br>header("f-verzondenactionURL:"   . $actionurltemplate );
+<br>header("fb-van-module:"   . $modadres );
+<br>header("fb-modulestatus:"   . $modulestatus );
+<br>header("fb-kanaalstatus:"   . $kanaalstatus );
+<br>header("fb-merkerstatus:"   . $merkerstatus );
+<br>header("fb-gebruikteForm:"   . $formfactor );
+<br>
+<br>de html-gui-pagina zal tijdens het inladen ( of refreschen ) van de webpagina , op alle knoppen drukken van de classe "ph".
+<br>echter de javasript zal ervoor zorgen dat de ation-url die de lampen ed. zou omschakelen , even niet doorgaan.
+<br>op die manier krijgt elke knop zijn respectievelijke real time status kleur.
+<br>
+<br>met de excel kan je de html-code maken om buttons te genereren. (het aantal elementen MOET volgens dit stramien!!
+<br>
+ <br>  class="ph" id="knop4" name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur green red"  onclick="hitEndpointpeha(this)">relay 
+<br>        naamelement0 = "actionurl"  //het woord actionurl
+   <br>    naamelement1 = ipadres van de peha stm  ' "192.168.1.2"
+    <br>    naamelement2 = poort van de peha  ' 80 of 99   80voor echte actie of 99 als je een geen action-url wil uitvoeren
+     <br>    naamelement3 = stm nummer ' "0"
+        <br>  naamelement4 = pehamod voor de actionurl '"3"
+        <br>   naamelement5 = peha channel voor de actionurl ' "9"
+         <br>   naamelement6 = event van de actionurl '"2"  ' vb lang drukken , kort drukken <2
+           <br>  naamelement7 = "merker" // het woord "merker" of "fb"  : merker om merkers uit vragen , fb om een module uit te vragen
+            <br>  naamelement8 = stm nummer voor de fb '"0"
+             <br>  naamelement9 = modulenummer voor de feedbak of merkernummer  ' "1"
+              <br>  naamelement10 = kanaalnr voor de feedback  "1", ofwel een "x" als je een merker wil uitlezen  ' 
+               <br>  naamelement11 = "kleur" //het woord kleur
+                 <br> naamelement12 =  '"pink"  //een kleur als de feedbackwaarde een nul is.
+                <br>  naamelement13 =   '"red" // een kleur als de feedbackwaarde een één is.
+<br>
+<br>
+
 
 
 

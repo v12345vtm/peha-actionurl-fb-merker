@@ -1,0 +1,141 @@
+BMV
+Win32DiskImager.exe - Sn:elkoppeling
+2017-07-05-raspbian-jessie.img
+
+sudo nano  /etc/apt/sources.list	remove #
+sudo apt-get update -y	18h48
+sudo apt-get install samba vsftpd  php5 libapache2-mod-php5 php5-curl  -y	18h50
+
+
+
+ 
+sudo /etc/init.d/apache2 restart  19h04 = als je niet geupdat hebt eerst krijg je deze error genegeerd :  See "systemctl status apache2.service" and "journalctl -xe" for details.
+ 
+sudo apt-get install mysql-server -y	//plekke plekke
+ 
+ 
+ 
+ 
+sudo apt-get install  phpmyadmin -y	//myphpadminDB over de mySQL doen! 19:15  plekke plekke plekke apache
+
+sudo /etc/init.d/apache2 restart
+
+
+sudo nano /etc/apache2/apache2.conf	 //php zeggen waar de database is
+toevoegen Include /etc/phpmyadmin/apache.conf
+
+sudo /etc/init.d/apache2 restart
+http://192.168.0.35/phpmyadmin/  //inloggen root plekke en test of je een database kan aanpaken cmsms, normaal moet alles lukken
+
+
+stap4 : ftp rechten toestaan
+sudo chown -R pi /var/www
+sudo chown -R pi /media
+
+
+
+stap5 : ftp instellen
+sudo nano /etc/vsftpd.conf
+toevoegen :  force_dot_files=YES
+uncomment (anders kan je niet uploaden via ftp) :  write_enable=YES
+sudo service vsftpd restart
+
+inloggen met filezilla op ipadres  , pi , raspberry poort 21
+via ftp , alles in var/www op 777 zetten anders werkt php niet
+
+
+sudo nano /etc/php5/apache2/php.ini 
+comment met een # erbij te zetten ! :deze lijn uitschakelen :"disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited..."
+sudo /etc/init.d/apache2 restart
+
+
+dowmload cms  , zet de php naar var/www/html
+ga naar http://192.168.0.35/cmsms-2.2.10-install.php
+indien wit scherm = var/www op 777 doen 
+
+instal cms  : 
+Database Hostnaam : localhost
+Database Naam : cmsms
+Gebruikersnaam : root
+Wachtwoord  : plekke
+
+CMSMADE SIMPLE :Gebruikersnaam : vith
+E-mail: therminator2@yahoo.com
+Wachtwoord : plekke
+Website naam : kies een mooie naam  : Domotica
+
+
+
+
+//samba instellen die we al int begin instaleerden
+
+
+
+sudo smbpasswd -a pi
+paswoord kiezen = raspberry
+sudo nano /etc/samba/smb.conf
+toevoegen :
+[varwwwmeneerdynunet]
+path = /var/www/html
+guest ok = yes
+guest account = ftp
+browseable = yes
+read only = no
+create mask = 0777
+directory mask = 0777
+writeable = yes
+admin users = everyone
+
+
+
+sudo /etc/init.d/samba restart
+
+testen in verkenner op  
+\\192.168.0.35   moest je geen rechten hebben in FTP alles op 777 zetten van /var/www/html
+
+
+mapje erbij maken in /var/www/html/peha
+htacces in deze map instellen:
+//sudo nano /var/log/apache2/error.log //foutzoeken
+
+
+
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+toevoegen BOVEN </VirtualHost> tag : 
+
+  <Directory "/var/www/html/peha">
+        AuthType Basic
+        AuthName "Restricted Content"
+        AuthUserFile /media/.htpasswd
+        Require valid-user
+    </Directory> 
+	
+	
+.htaccess bestand in :  /var/www/html/peha/ 
+//in de .htacces staat het volgende : 
+AuthName "Member's Area Name"
+AuthType Basic
+require valid-user  
+
+
+sudo service apache2 restart
+//nu zal er paswoord gevraagd worden op de websitefolder , echter het wachtwoordbestand is er nog niett
+
+met ftp zet .htpasswd in /media
+en met ftp zet .htpasswd op 777
+
+in de file .htpasswd zet je de gebruikers lijn per lijn en een paswoord
+een paswoord genereer je met deze site : http://www.htaccesstools.com/htpasswd-generator/
+htpasswd generator creates passwords that are hashed using the MD5 algorithm,
+ which means that you can use it for sites hosted on any platform, including Windows and Linux. 
+vincent:$apr1$nc0C2QG0$lAG2HgvRSKwhknT4fjsVg0
+
+
+ 
+
+
+
+
+
+
+
