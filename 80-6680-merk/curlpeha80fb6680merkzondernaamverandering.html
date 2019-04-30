@@ -10,8 +10,7 @@
 
 <style>
 body { background-color: #f4ca41; font-family: Arial, Helvetica, Sans-Serif; Color: #000000; }
-.ph { background-color:orange ;width:305px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;   border:4px solid black;  border-radius: 15px;  box-shadow: 0 9px #998;}
-button:hover{background-color: brown;}
+.ph { background-color: orange;width:320px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;    border: none;  border-radius: 15px;  box-shadow: 0 9px #998;}.button:hover {background-color: yellow}
 .ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(5px);
 </style>
     </head>
@@ -23,26 +22,12 @@ button:hover{background-color: brown;}
  
  
  var arrayvanPHknoppen  = new Array() ;// elementmet id's  : knop1 knop2 knop3
- var arrayvanPHknopinnerhtml  = new Array() ;//  
  var skipActionurl = 1; //geen actionurl als we op f5 browser refreshen
- 
- 
- 
- 
- // Constructor function for Person objects https://www.w3schools.com/js/js_object_constructors.asp
-function Person(knopid, knoptextlabel ) {
-  this.ID = knopid;
-  this.LABEL = knoptextlabel;
- 
-}
- 
- 
- 
  
  //var fullcmdArray = new Array() ;
  
  function start() {
-//alert ("hi" );
+ //alert ("hi" );
  
  //in deze functie gaan we op alle knoppen eens drukken  maar zonder dat de actionurl gebeurd
 skipActionurl = 1; 
@@ -50,17 +35,13 @@ skipActionurl = 1;
  var pehaknoppen = document.getElementsByClassName("ph");
 for (var i = 0, len = pehaknoppen.length; i < len; ++i)
  {
-  arrayvanPHknoppen[i] = pehaknoppen [i].id ; //alle knopID's in een tabel onthouden
-   arrayvanPHknopinnerhtml[i] = new Person(pehaknoppen [i].id   , pehaknoppen [i].innerHTML ); ; //
+  arrayvanPHknoppen[i] = pehaknoppen [i].id ;
 }//end for
-
 for (var j = 0, len = arrayvanPHknoppen.length; j < len; ++j)
  {
-   console.log(" regel 46arrayvanPHknopinnerhtml " );
-   console.log( arrayvanPHknopinnerhtml );
- // console.log( arrayvanPHknopinnerhtml[0].innerHTML );
-  
-  hitEndpointpeha (document.getElementById(arrayvanPHknoppen[j]) ); //tijdens het laden vd webpagina , druk op elke peha knop
+  console.log(" arrayvanPHknoppen " );
+ console.log( arrayvanPHknoppen );
+  hitEndpointpeha (document.getElementById(arrayvanPHknoppen[j]) );
 sleep(100);
  
 }//end for
@@ -81,8 +62,8 @@ skipActionurl = 0; //vrijgave om action url door te laten
 
 function hitEndpointpeha(e   ){
 
-		//we gaan 2http get requesten doen ( 1e actionurl om een lamp aan te sturen , en een 2e req om fb van een merker of module te weten
-		//echter als we alle statussen willen weten zonder action url te doen , kunnen we via parameter skipactionurl , de 1e req overlaten
+//we gaan 2http get requesten doen ( 1e actionurl om een lamp aan te sturen , en een 2e req om fb van een merker of module te weten
+//echter als we alle statussen willen weten zonder action url te doen , kunnen we via parameter skipactionurl , de 1e req overlaten
 console.clear(); //we willen enkel de recentste knop data zien in de console
 var actionurltemplate ;
 var a = "XX";
@@ -105,7 +86,7 @@ actionurltemplate=    "curlpeha80fb6680merk.php?ipadresactionurl="   + fullcmdAr
 
 
 getrequest (e , actionurltemplate   );
-sleep(200);
+sleep(100);
 }
 
 
@@ -223,44 +204,11 @@ fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
 		   
 		   //background-color in css noemt backgroundColor in js
 		   //color
-		   
-		   //  console.clear();
-		//    console.log("testoriginele innterhtml");//
-	// console.log(arrayvanPHknopinnerhtml[1]);//
-	// console.log(arrayvanPHknopinnerhtml );//
-	 
-	
-	
- var origineleLABELtext ; 
-arrayvanPHknopinnerhtml.forEach(function (arrayItem) {
-    var x = arrayItem.ID ;
-	var y = arrayItem.LABEL ;
-   // console.log(x + " " + y );
-	
-	if (x == knop.id){origineleLABELtext = y;}
-});
-
-
-
-
 		  
 			 var f = document.getElementById(knop.id);
-    if (eindfeedbackAlgelijkvanwie === "0") 
-	{f.style.backgroundColor =  fullcmdArray[12] ;
-	 f.innerHTML = origineleLABELtext + " 0";
-	
-	
-	
-	
-	}
-	
+    if (eindfeedbackAlgelijkvanwie === "0") {f.style.backgroundColor =  fullcmdArray[12] ;}
     else 
-  if (eindfeedbackAlgelijkvanwie === "1")
-  {f.style.backgroundColor = fullcmdArray[13] ;
-   f.innerHTML = origineleLABELtext + " 1";
-  
-  
-  }
+  if (eindfeedbackAlgelijkvanwie === "1") {f.style.backgroundColor = fullcmdArray[13] ;}
   
  // alert (knop.id);
 		} // end kleurcodeinvullenToegelaten	
@@ -300,11 +248,19 @@ arrayvanPHknopinnerhtml.forEach(function (arrayItem) {
  
 <hr>
 
+  
+  //curlpeha80fb6680merk.php?ipadresactionurl=192.168.1.2&poortactionurl=80&stmactionurl=0&moduleactionurl=0&channelactionurl=0&eventactionurl=2&submit=actionurl
+  //actionurl 192.168.1.2 80 0 0 0 2 
 
+//curlpeha80fb6680merk.php?merkerstm=0&merkernr=1&submit=merker
+//merker 0 1  
 
-<br><br><button class="ph" id="aa"    name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur green red"  onclick="hitEndpointpeha(this )">eettafel merker</button>
-<br><br><button class="ph" id="bb"    name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur #3e8e41 #78ff78"  onclick="hitEndpointpeha(this)">relais</button>
- <br><br><button class="ph" id="cc" name="actionurl 192.168.1.2 99 0 3 9 2 merker 0 1 x kleur pink red"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden</button>
+//curlpeha80fb6680merk.php?fbstm=0&fbmodule=64&fbkanaal=0&submit=fb
+//fb 0 64 0    == 00.00   en 04.01 = 68.01
+
+<br><br><button class="ph" id="aa"    name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur green red"  onclick="hitEndpointpeha(this )"> eettafel merker01  </button>
+<br><br><button class="ph" id="bb"    name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur green red"  onclick="hitEndpointpeha(this)"> relais </button>
+ <br><br><button class="ph" id="cc" name="actionurl 192.168.1.2 99 0 3 9 2 merker 0 1 x kleur pink red"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden </button>
    
 <br><br><button class="ph" id="sensor2" name="actionurl 192.168.1.2 99 0 0 0 2 merker 0 1 x kleur pink orange"  onclick="hitEndpointpeha(this)">rolluik fb merker</button>
 <br><br><button class="ph" id="knop3" name="actionurl 192.168.1.2 80 0 0 3 2 fb 0 64 7 kleur green red"  onclick="hitEndpointpeha(this)">grootraam</button>
