@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Action-C-url</title>
+     
+    </head>
+	
+<body>
+
+<h2>ENKEL IN NOOD aub</h2>
+
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=2&channel=6&event=2&submit=Submit')"> PANIEK ALLES OVERAL AAN</button>
+
+
+
+<div id="demo"></div>
+
+
+
+
+<script>
+ 
+
+function hitEndpoint(url){
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function(){
+      //we're done making the request
+      if(this.readyState === 4) {
+         //status code was successful
+         if(this.status === 200) {
+		 //ALS WE DE RESPONS WILLEN ZIEN UNCOMMENT DAN DE VOLGENDE LIJN
+		//  document.getElementById("demo").innerHTML =      this.responseText;
+            console.log(url + " hit endpoint successfully")
+         } else {
+            console.log(url + " error hitting endpoint");
+         }
+      }
+   };
+   xhttp.open("GET", url);
+  xhttp.setRequestHeader("Accept", 'application/json');
+  // xhttp.setRequestHeader("Origin", 'maximum.blog');
+   
+   xhttp.send();
+}
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Action-C-url</title>
+     
+    </head>
+	
+	
+<body>
+
+<h2>Action-C-url</h2>
+<button onclick="hitEndpoint('http://192.168.1.21/ir?code=33448095')">HDMI TVV</button>
+<button onclick="hitEndpoint('http://192.168.1.21/ir?code=33431743')">HDMI Chromecast</button>
+<button onclick="hitEndpoint('http://192.168.1.21/ir?code=33439935')">HDMI Raspi</button>
+
+<hr>
+
+<br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=0&channel=3&event=2&submit=Submit')">CURL grootraam  </button>
+
+ 
+
+<br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=0&channel=0&event=2&submit=Submit')"> LIVING : knop C > blauw :  eettafel  (6)</button>
+
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=3&channel=3&event=2&submit=Submit')"> rolluik op  (1)</button>
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=0&channel=2&event=2&submit=Submit')"> LIVING : knop G >groen : keukentafel  </button>
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=1&channel=15&event=2&submit=Submit')"> INKOM : knop  A >  bruin : 3tv spots  </button>
+ <br><br> <button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=0&channel=3&event=2&submit=Submit')"> LIVING   grootraam </button>
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=1&channel=8&event=2&submit=Submit')"> INKOM :   zetel </button>
+
+
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=1&channel=6&event=2&submit=Submit')"> LIVING : knop  B > bruin :  alles uit beneden  (5)</button>
+ <br><br><button onclick="hitEndpoint('curlpeha.php?ipadres=192.168.1.2&poort=80&stm=0&module=1&channel=6&event=6&submit=Submit')"> LIVING : knop  B > bruin :  alles uit boven en beneden  (5)</button>
+
+<br>
+
+
+
+<p><a href="http://meneer.dynu.net/peha/curl.php  ">curl.php</a> met curl heeft lamp geen storingen</p>
+
+<p><a href="curlpeha.php  ">curlpeha.php</a>werk php die actionurl stuurt</p>
+<p><a href="curlpeha.html  ">curlpeha.html</a>GUI met knoppen</p>
+<p><a href="fb6680.php  ">fb.php</a>php die aan poort 6680 fb vraagt</p>
+
+
+<div id="demo"></div>
+
+
+
+<br>
+
+
+    // This will send the request to the server
+ <button onclick="hitEndpoint('<methodCall><methodName>service.stm.simInputEvent</methodName><params><param><value><i4>0</i4></value></param><param><value><i4>0</i4></value></param><param><value><i4>0</i4></value></param><param><value><i4>2</i4></value></param><param><value><i4>4</i4></value></param></params></methodCall>')">IMD.00.03 - LIVING  :knop  E  orange : grootraam  (1)</button>
+<hr>
+<script>
+ 
+
+function hitEndpoint(url){
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function(){
+      //we're done making the request
+      if(this.readyState === 4) {
+         //status code was successful
+         if(this.status === 200) {
+		 //ALS WE DE RESPONS WILLEN ZIEN UNCOMMENT DAN DE VOLGENDE LIJN
+		  document.getElementById("demo").innerHTML =      this.responseText;
+            console.log(url + " hit endpoint successfully")
+         } else {
+            console.log(url + " error hitting endpoint");
+         }
+      }
+   };
+   xhttp.open("GET", url);
+  xhttp.setRequestHeader("Accept", 'application/json');
+  // xhttp.setRequestHeader("Origin", 'maximum.blog');
+   
+   xhttp.send();
+}
+
+
+</script>
+
+</body>
+</html>
