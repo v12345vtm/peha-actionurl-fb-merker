@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Action-C-url met fb+merker</title>
+
+
+<style>
+body { background-color: #f4ca41; font-family: Arial, Helvetica, Sans-Serif; Color: #000000; }
+.ph { background-color:orange ;width:305px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;   border:4px solid black;  border-radius: 15px;  box-shadow: 0 9px #998;}
+button:hover{background-color: brown;}
+.ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(5px);
+</style>
+    </head>
+	
+	
+ <body onload="javascript:start();">
+ 
+      <script>
+ 
+ 
+ var arrayvanPHknoppen  = new Array() ;// elementmet id's  : knop1 knop2 knop3
+ var arrayvanPHknopinnerhtml  = new Array() ;//  
+ var skipActionurl = 1; //geen actionurl als we op f5 browser refreshen
+ 
+ 
+ 
+ 
+ // Constructor function for Person objects https://www.w3schools.com/js/js_object_constructors.asp
+function Person(knopid, knoptextlabel ) {
+  this.ID = knopid;
+  this.LABEL = knoptextlabel;
+ 
+}
+ 
+ 
+ 
+ 
+ //var fullcmdArray = new Array() ;
+ 
+ function start() {
+//alert ("hi" );
+ 
+ //in deze functie gaan we op alle knoppen eens drukken  maar zonder dat de actionurl gebeurd
+skipActionurl = 1; 
+ console.clear(); //we willen enkel de recentste knop data zien in de console
+ var pehaknoppen = document.getElementsByClassName("ph");
+for (var i = 0, len = pehaknoppen.length; i < len; ++i)
+ {
+  arrayvanPHknoppen[i] = pehaknoppen [i].id ; //alle knopID's in een tabel onthouden
+   arrayvanPHknopinnerhtml[i] = new Person(pehaknoppen [i].id   , pehaknoppen [i].innerHTML ); ; //
+}//end for
+
+for (var j = 0, len = arrayvanPHknoppen.length; j < len; ++j)
+ {
+   console.log(" regel 46arrayvanPHknopinnerhtml " );
+   console.log( arrayvanPHknopinnerhtml );
+ // console.log( arrayvanPHknopinnerhtml[0].innerHTML );
+  
+  hitEndpointpeha (document.getElementById(arrayvanPHknoppen[j]) ); //tijdens het laden vd webpagina , druk op elke peha knop
+sleep(100);
+ 
+}//end for
+
+ console.log("arrayvanPHknoppen" );
+console.log( arrayvanPHknoppen);
+skipActionurl = 0; //vrijgave om action url door te laten
+ }
+ 
+ function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+function hitEndpointpeha(e   ){
+
+		//we gaan 2http get requesten doen ( 1e actionurl om een lamp aan te sturen , en een 2e req om fb van een merker of module te weten
+		//echter als we alle statussen willen weten zonder action url te doen , kunnen we via parameter skipactionurl , de 1e req overlaten
+console.clear(); //we willen enkel de recentste knop data zien in de console
+var actionurltemplate ;
+var a = "XX";
+//var cmdArray = new Array() ; //elementen die in de e.name staan
+spatierij =  e.name ; // we hebben altijd ...elementen
+ fullcmdArray = spatierij.split(" "); // we hebben altijd xxelementen
+ 
+ 
+ console.log("fullcmdArray" );
+console.log( fullcmdArray );
+
+
+if ((fullcmdArray[0]   == "actionurl") &  (skipActionurl == 0 )  ){
+
+actionurltemplate=    "curlpeha80fb6680merk.php?ipadresactionurl="   + fullcmdArray[1]  +   "&poortactionurl="  + fullcmdArray[2]   +   "&stmactionurl="  + fullcmdArray[3]   +   "&moduleactionurl="   +  fullcmdArray[4]  +   "&channelactionurl="  +  fullcmdArray[5]  +   "&eventactionurl="  +  fullcmdArray[6]  +   "&submit=" +   fullcmdArray[0] ;   
+  //actionurl 192.168.1.2 80 0 0 0 2 
+  
+ // console.log("actionurltemplate" );
+//console.log( actionurltemplate );
+
+
+getrequest (e , actionurltemplate   );
+sleep(200);
+}
+
+
+
+
+//fullcmdArray[7]   bepaalt welke link gemaakt moet worden voor fb of anderzijds voor merker
+
+
+if (fullcmdArray[7]   == "merker"){
+
+var merkertemplate;
+merkertemplate = "curlpeha80fb6680merk.php?merkerstm="   + fullcmdArray[8]  +   "&merkernr="   + fullcmdArray[9]  +   "&submit="  + fullcmdArray[7]   ; 
+//merker 0 1 
+// console.log("merkertemplate" );
+//console.log( merkertemplate );
+getrequest (e , merkertemplate   );
+}
+
+ if (fullcmdArray[7]   == "fb"){
+ 
+ var feedbacktemplate;
+feedbacktemplate = "curlpeha80fb6680merk.php?fbstm="   + fullcmdArray[8]  +   "&fbmodule="   + fullcmdArray[9]  +   "&fbkanaal="   + fullcmdArray[10]  +   "&submit=fb"
+//fb 0 64 0    == 00.00   en 04.01 = 68.01
+ getrequest (e , feedbacktemplate   );
+ }
+
+
+ 
+}
+
+
+
+function getrequest (knop , url ) {
+var kleurcodeinvullenToegelaten = 0 ;  //geen vrijgave om zomaar de kleurcode in te vullen bij actionurl kan dit niet
+  var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function(){
+      //we're done making the request naar de php pagina die op zijn beurt een curl get request doet + 1 xml 6680 request voor fb
+      if(this.readyState === 4) {
+         //status code was successful
+         if(this.status === 200) {
+		 //ALS WE DE RESPONS WILLEN ZIEN UNCOMMENT DAN DE VOLGENDE LIJN de headers lezen we wel uit en zetten we in de html
+		//  document.getElementById("demo").innerHTML =      this.responseText;
+	  
+		 var     x=this.getResponseHeader("Content-Length");
+      document.getElementById("header").innerHTML=x;
+	  	  	  	 var     fverzondenactionURL =this.getResponseHeader("f-verzondenactionURL");
+      document.getElementById("fb0").innerHTML  =  fverzondenactionURL;
+	  
+	   	 var     fbvanmodule =this.getResponseHeader("fb-van-module");
+       document.getElementById("fb1").innerHTML=  fbvanmodule;
+	   
+	    	  	   	 var     fbmodulestatus = this.getResponseHeader("fb-modulestatus");
+       document.getElementById("fb2").innerHTML= fbmodulestatus;
+	
+	  	 var     fbkanaalstatus = this.getResponseHeader("fb-kanaalstatus");
+       document.getElementById("fb3").innerHTML= fbkanaalstatus;
+	   
+	   
+	   	  	 var     fbmerkerstatus = this.getResponseHeader("fb-merkerstatus");
+       document.getElementById("fb4").innerHTML= fbmerkerstatus;
+	   
+	      	  	 var     fbgebruiktformulier = this.getResponseHeader("fb-gebruikteForm");
+       document.getElementById("fb5").innerHTML= fbgebruiktformulier;
+		  
+		  //in ^php curlpeha80fb6680.php die gemaakt is voor met deze html te werken
+	//	  de respons die de GUI moet weet te vinden zit in deze parameters
+//header("f-verzondenactionURL:"   . $actionurltemplate );
+//header("fb-van-module:"   . $modadres );
+//header("fb-modulestatus:"   . $modulestatus );
+//header("fb-kanaalstatus:"   . $kanaalstatus );
+//header("fb-merkerstatus:"   . $merkerstatus );
+//header("fb-gebruikteForm:"   . $formfactor );
+
+
+ //console.clear(); // debug
+            console.log("hit endpoint successfully");
+			console.log("responslengte : "  + x );
+			 console.log("  fverzondenactionURL : " +fverzondenactionURL );
+			  console.log("  fbvanmodule : " + fbvanmodule );
+			   console.log("  fbmodulestatus : " + fbmodulestatus);
+			    console.log("  fbkanaalstatus : " + fbkanaalstatus);
+				 console.log("  fbmerkerstatus : " + fbmerkerstatus);
+				 console.log("  fbgebruiktformulier : " + fbgebruiktformulier);
+				 
+			//nu hebben we alle feedback , maar we moeten maar 1 getal weten  , tis 1 of 0
+			//is dat  nu een merker of fb , vanwaar het komt doet er nu niet meer toe...
+			
+			var eindfeedbackAlgelijkvanwie = "nog geen" ; 
+			if (fbgebruiktformulier == "merker"){
+			
+			eindfeedbackAlgelijkvanwie = fbmerkerstatus ;
+			kleurcodeinvullenToegelaten = 1 ; 
+			}
+			
+				if (fbgebruiktformulier == "fb"){
+			
+			eindfeedbackAlgelijkvanwie = fbkanaalstatus ;
+			kleurcodeinvullenToegelaten = 1 ; 
+			}
+		
+		if (kleurcodeinvullenToegelaten == 1){
+		 console.log("  eindfeedbackAlgelijkvanwie : " + eindfeedbackAlgelijkvanwie);
+		 
+//updaten van kleurcode voor css
+spatierij =  knop.name ; // we hebben altijd ...elementen
+fullcmdArray = spatierij.split(" "); // we hebben altijd 11elementen
+
+
+		    nulkleur = "\'" + fullcmdArray[12]  + "\'" ;
+		    eenkleur = "\'" + fullcmdArray[13]  + "\'" ;
+			
+				  console.log("  kleurpatroon0 :" + nulkleur );
+		   console.log("  kleurpatroon1 :" + eenkleur );
+		   console.log(knop);// knopobjet
+		   
+		   //background-color in css noemt backgroundColor in js
+		   //color
+		   
+		   //  console.clear();
+		//    console.log("testoriginele innterhtml");//
+	// console.log(arrayvanPHknopinnerhtml[1]);//
+	// console.log(arrayvanPHknopinnerhtml );//
+	 
+	
+	
+ var origineleLABELtext ; 
+arrayvanPHknopinnerhtml.forEach(function (arrayItem) {
+    var x = arrayItem.ID ;
+	var y = arrayItem.LABEL ;
+   // console.log(x + " " + y );
+	
+	if (x == knop.id){origineleLABELtext = y;}
+});
+
+
+
+
+		  
+			 var f = document.getElementById(knop.id);
+    if (eindfeedbackAlgelijkvanwie === "0") 
+	{f.style.backgroundColor =  fullcmdArray[12] ;
+	 f.innerHTML = origineleLABELtext + " 0";
+	
+	
+	
+	
+	}
+	
+    else 
+  if (eindfeedbackAlgelijkvanwie === "1")
+  {f.style.backgroundColor = fullcmdArray[13] ;
+   f.innerHTML = origineleLABELtext + " 1";
+  
+  
+  }
+  
+ // alert (knop.id);
+		} // end kleurcodeinvullenToegelaten	
+			
+			
+		 	
+         } else {
+            console.log(name + " error hitting endpoint");
+         }
+      }
+   };
+   xhttp.open("GET", url);
+  xhttp.setRequestHeader("Accept", 'application/json');
+  // xhttp.setRequestHeader("Origin", 'maximum.blog');
+   
+   xhttp.send();
+}
+
+
+
+
+//  xml voor port 6680('<methodCall><methodName>service.stm.simInputEvent</methodName><params><param><value><i4>0</i4></value></param><param><value><i4>0</i4></value></param><param><value><i4>0</i4></value></param><param><value><i4>2</i4></value></param><param><value><i4>4</i4></value></param></params></methodCall>')">IMD.00.03 - LIVING  :knop  E  orange : grootraam  (1)</button>
+
+</script>
+ 
+ 
+<div id="header">responslengte</div>
+<div id="fb0">fb</div>
+<div id="fb1">fb</div>
+<div id="fb2">fb</div>
+<div id="fb3">fb</div>
+<div id="fb4">fb</div>
+<div id="fb5">fb</div>
+
+
+<h2>Action-C-url MERKER5588 ...Daevid , test maar , gerust , tis wel voor echt e</h2>
+ 
+<hr>
+
+
+
+<br><br><button class="ph" id="aa"    name="actionurl 192.168.1.2 80 0 0 0 2 merker 0 1 x kleur green red"  onclick="hitEndpointpeha(this )">eettafel merker</button>
+<br><br><button class="ph" id="bb"    name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur #3e8e41 #78ff78"  onclick="hitEndpointpeha(this)">relais</button>
+ <br><br><button class="ph" id="cc" name="actionurl 192.168.1.2 99 0 3 9 2 merker 0 1 x kleur pink red"  onclick="hitEndpointpeha(this)">status knop zonder functie: merker rolluik beneden</button>
+   
+<br><br><button class="ph" id="sensor2" name="actionurl 192.168.1.2 99 0 0 0 2 merker 0 1 x kleur pink orange"  onclick="hitEndpointpeha(this)">rolluik fb merker</button>
+<br><br><button class="ph" id="knop3" name="actionurl 192.168.1.2 80 0 0 3 2 fb 0 64 7 kleur green red"  onclick="hitEndpointpeha(this)">grootraam</button>
+<br><br><button class="ph" id="knop4" name="actionurl 192.168.1.2 80 0 3 9 2 fb 0 68 1 kleur green red"  onclick="hitEndpointpeha(this)">relay</button>
+
+   
+<hr> 
+
+
+
+<p><a href="curlpeha80fb6680merk.php  ">curlpeha80fb6680merk.php</a>werk php die actionurl stuurt</p>
+<p><a href="curlpeha80fb6680merk.html  ">curlpeha80fb6680merk.html</a>GUI met knoppen</p>
+
+
+<div id="demo"></div>
+
+ 
+
+<br>
+
+
+   
+
+
+
+</body>
+</html>
