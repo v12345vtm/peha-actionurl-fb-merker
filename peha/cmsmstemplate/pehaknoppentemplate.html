@@ -13,7 +13,7 @@
 <style>
 body { background-color: #f4ca41; font-family: Arial, Helvetica, Sans-Serif; Color: #000000; }
 .ph { background-color:orange ;width:305px; padding: 30px 30px;  font-size: 24px;  text-align: center;  cursor: pointer;  outline: none;  color: #fff;   border:4px solid black;  border-radius: 15px;  box-shadow: 0 9px #998;}
-button:hover{background-color: brown}
+
 .ph:active {  background-color: #3e8e41;  box-shadow: 0 5px #667;  transform: translateY(5px);
 </style>
     </head>
@@ -30,13 +30,13 @@ button:hover{background-color: brown}
 	</nav>
  
  {literal}
-      <script>
+         <script>
  
  
  var arrayvanPHknoppen  = new Array() ;// elementmet id's  : knop1 knop2 knop3
  var arrayvanPHknopinnerhtml  = new Array() ;//  
  var skipActionurl = 1; //geen actionurl als we op f5 browser refreshen
- 
+ var phpformlocatie =  'http://' + window.location.hostname + "/peha/";
  
  
  
@@ -108,11 +108,11 @@ console.log( fullcmdArray );
 
 if ((fullcmdArray[0]   == "actionurl") &  (skipActionurl == 0 )  ){
 
-actionurltemplate=    "curlpeha80fb6680merk.php?ipadresactionurl="   + fullcmdArray[1]  +   "&poortactionurl="  + fullcmdArray[2]   +   "&stmactionurl="  + fullcmdArray[3]   +   "&moduleactionurl="   +  fullcmdArray[4]  +   "&channelactionurl="  +  fullcmdArray[5]  +   "&eventactionurl="  +  fullcmdArray[6]  +   "&submit=" +   fullcmdArray[0] ;   
+actionurltemplate= phpformlocatie +   "curlpeha80fb6680merk.php?ipadresactionurl="   + fullcmdArray[1]  +   "&poortactionurl="  + fullcmdArray[2]   +   "&stmactionurl="  + fullcmdArray[3]   +   "&moduleactionurl="   +  fullcmdArray[4]  +   "&channelactionurl="  +  fullcmdArray[5]  +   "&eventactionurl="  +  fullcmdArray[6]  +   "&submit=" +   fullcmdArray[0] ;   
   //actionurl 192.168.1.2 80 0 0 0 2 
   
- // console.log("actionurltemplate" );
-//console.log( actionurltemplate );
+ console.log("actionurltemplate" );
+console.log( actionurltemplate );
 
 
 getrequest (e , actionurltemplate   );
@@ -128,7 +128,7 @@ sleep(200);
 if (fullcmdArray[7]   == "merker"){
 
 var merkertemplate;
-merkertemplate = "curlpeha80fb6680merk.php?merkerstm="   + fullcmdArray[8]  +   "&merkernr="   + fullcmdArray[9]  +   "&submit="  + fullcmdArray[7]   ; 
+merkertemplate = phpformlocatie + "curlpeha80fb6680merk.php?merkerstm="   + fullcmdArray[8]  +   "&merkernr="   + fullcmdArray[9]  +   "&submit="  + fullcmdArray[7]   ; 
 //merker 0 1 
 // console.log("merkertemplate" );
 //console.log( merkertemplate );
@@ -138,7 +138,7 @@ getrequest (e , merkertemplate   );
  if (fullcmdArray[7]   == "fb"){
  
  var feedbacktemplate;
-feedbacktemplate = "curlpeha80fb6680merk.php?fbstm="   + fullcmdArray[8]  +   "&fbmodule="   + fullcmdArray[9]  +   "&fbkanaal="   + fullcmdArray[10]  +   "&submit=fb"
+feedbacktemplate = phpformlocatie + "curlpeha80fb6680merk.php?fbstm="   + fullcmdArray[8]  +   "&fbmodule="   + fullcmdArray[9]  +   "&fbkanaal="   + fullcmdArray[10]  +   "&submit=fb"
 //fb 0 64 0    == 00.00   en 04.01 = 68.01
  getrequest (e , feedbacktemplate   );
  }
